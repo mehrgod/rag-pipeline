@@ -70,8 +70,20 @@ def extract_text_from_html(html):
     parser.feed(html)
     return parser.get_text()
 
-# Step 4 - normalize_text (not yet solved)
-# TODO: implement
+# Step 4 - normalize_text
+import unicodedata
+
+def normalize_text(text):
+    # TODO: NFKC-normalize the text and collapse runs of whitespace into single spaces.
+    text = unicodedata.normalize("NFKC", text)
+    text = text.replace("\t", " ")
+    text = text.replace("\n", " ")
+
+    lst = text.split()
+
+    out = " ".join(lst)
+    
+    return out
 
 # Step 5 - make_document (not yet solved)
 # TODO: implement
