@@ -120,8 +120,60 @@ def chunk_by_tokens(text, tokenizer, max_tokens):
     
     return chunks
 
-# Step 8 - chunk_by_sentences (not yet solved)
-# TODO: implement
+# Step 8 - chunk_by_sentences
+import re
+
+def chunk_by_sentences(text, max_chars):
+    # TODO: split text on .!? boundaries and greedily pack whole sentences under max_chars.
+
+    if not text or not text.strip():
+        return []
+
+    # Split into sentences
+    sentences = []
+    start = 0
+
+    for i, ch in enumerate(text):
+        if ch in ".!?":
+            sentence = text[start:i + 1].strip()
+            if sentence:
+                sentences.append(sentence)
+            start = i + 1
+
+    # Handle trailing text without punctuation
+    if start < len(text):
+        sentence = text[start:].strip()
+        if sentence:
+            sentences.append(sentence)
+
+    # Greedily pack sentences into chunks
+    chunks = []
+    current_chunk = ""
+
+    for sentence in sentences:
+        # Long sentence gets its own chunk
+        if len(sentence) > max_chars:
+            if current_chunk:
+                chunks.append(current_chunk)
+                current_chunk = ""
+            chunks.append(sentence)
+            continue
+
+        if not current_chunk:
+            current_chunk = sentence
+        else:
+            candidate = current_chunk + " " + sentence
+
+            if len(candidate) <= max_chars:
+                current_chunk = candidate
+            else:
+                chunks.append(current_chunk)
+                current_chunk = sentence
+
+    if current_chunk:
+        chunks.append(current_chunk)
+
+    return chunks
 
 # Step 9 - chunk_with_overlap (not yet solved)
 # TODO: implement
