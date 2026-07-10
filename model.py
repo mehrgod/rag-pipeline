@@ -121,8 +121,6 @@ def chunk_by_tokens(text, tokenizer, max_tokens):
     return chunks
 
 # Step 8 - chunk_by_sentences
-import re
-
 def chunk_by_sentences(text, max_chars):
     # TODO: split text on .!? boundaries and greedily pack whole sentences under max_chars.
 
