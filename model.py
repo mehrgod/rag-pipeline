@@ -199,8 +199,14 @@ def attach_chunk_metadata(chunks, source):
 
     return chunks_meta
 
-# Step 11 - load_embedding_model (not yet solved)
-# TODO: implement
+# Step 11 - load_embedding_model
+from sentence_transformers import SentenceTransformer
+
+def load_embedding_model(model_name):
+    # TODO: return a sentence-transformers model instance for the given model_name.
+    model = SentenceTransformer(model_name)
+
+    return model
 
 # Step 12 - embed_text (not yet solved)
 # TODO: implement
