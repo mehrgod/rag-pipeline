@@ -107,8 +107,18 @@ def chunk_fixed_size(text, chunk_size):
 
     return chunks
 
-# Step 7 - chunk_by_tokens (not yet solved)
-# TODO: implement
+# Step 7 - chunk_by_tokens
+from transformers import AutoTokenizer
+
+def chunk_by_tokens(text, tokenizer, max_tokens):
+    # TODO: split text into chunks of at most max_tokens token ids using the tokenizer
+    tokens = tokenizer.encode(text)
+ 
+    chunks = []
+    for i in range(0, len(tokens), max_tokens):
+        chunks.append(text[i:i+max_tokens])
+    
+    return chunks
 
 # Step 8 - chunk_by_sentences (not yet solved)
 # TODO: implement
