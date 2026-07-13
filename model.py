@@ -218,10 +218,8 @@ def embed_chunks(model, chunks, batch_size=32):
     """Batch-embed a list of chunk strings or chunk dicts into a 2D float32 matrix."""
     # TODO: normalize chunk inputs to strings, encode in batches, return (n, d) float32 array
     
-    
     if not chunks:
-        return np.empty((0, 384), dtype=np.float32)
-
+        return np.empty((0, model.get_sentence_embedding_dimension()), dtype=np.float32)
     
     embeddings = []
 
