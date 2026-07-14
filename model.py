@@ -290,8 +290,19 @@ def top_k_indices(scores, k):
 
     return indices[:k]
 
-# Step 18 - top_k_chunks (not yet solved)
-# TODO: implement
+# Step 18 - top_k_chunks
+import numpy as np
+
+def top_k_chunks(scores, chunks, k):
+    # TODO: return list of (chunk, score) tuples for the top-k scores, sorted descending
+
+    top_k = top_k_indices(scores, k)
+
+    chunk_score = []
+    for i in top_k:
+        chunk_score.append((chunks[i], float(scores[i])))
+
+    return chunk_score
 
 # Step 19 - retrieve (not yet solved)
 # TODO: implement
