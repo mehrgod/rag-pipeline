@@ -304,8 +304,17 @@ def top_k_chunks(scores, chunks, k):
 
     return chunk_score
 
-# Step 19 - retrieve (not yet solved)
-# TODO: implement
+# Step 19 - retrieve
+def retrieve(query, model, chunk_matrix, chunks, k):
+    # TODO: embed the query, score it against chunk_matrix, return top-k (chunk, score) pairs.
+    
+    embed_query = embed_text(model, query)
+
+    scores = cosine_similarity_search(embed_query, chunk_matrix)
+
+    chunk_score = top_k_chunks(scores, chunks, k)
+
+    return chunk_score
 
 # Step 20 - build_faiss_index (not yet solved)
 # TODO: implement
