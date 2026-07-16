@@ -316,8 +316,17 @@ def retrieve(query, model, chunk_matrix, chunks, k):
 
     return chunk_score
 
-# Step 20 - build_faiss_index (not yet solved)
-# TODO: implement
+# Step 20 - build_faiss_index
+def build_faiss_index(chunk_matrix):
+    # TODO: build a FAISS inner-product index and add all rows of chunk_matrix to it
+    
+    d = chunk_matrix.shape[1]
+
+    index = faiss.IndexFlatIP(d)
+
+    index.add(chunk_matrix.astype(np.float32))
+
+    return index
 
 # Step 21 - faiss_search (not yet solved)
 # TODO: implement
