@@ -336,25 +336,27 @@ def faiss_search(index, query_vector, k):
     """Return top-k (scores, indices) as 1D arrays for a single query vector."""
     # TODO: query the FAISS index with the single query vector and return flat top-k arrays
     
-    n = index.ntotal  # total vectors in the index
+    query_vector = query_vector.reshape(1, -1).astype(np.float32)
 
-    scores, indices = index.search(
-        query_vector.reshape(1, -1).astype(np.float32),
-        n
-    )
+    scores, indices = index.search(query_vector, k)
 
-    scores = scores[0]
-    indices = indices[0]
-
-    order = np.lexsort((indices, -scores))
-
-    scores = scores[order][:k].astype(np.float32)
-    indices = indices[order][:k].astype(np.int64)
+    scores = scores[0].astype(np.float32)
+    indices = indices[0].astype(np.int64)
 
     return scores, indices
 
-# Step 22 - compare_faiss_to_numpy (not yet solved)
-# TODO: implement
+# Step 22 - compare_faiss_to_numpy
+def compare_faiss_to_numpy(query_vector, chunk_matrix, index, k):
+    # TODO: return True iff FAISS and numpy cosine search agree on the top-k indices
+
+    scores = cosine_similarity_search(query_vector, chunk_matrix)
+    numpy_indices = top_k_indices(scores, k)
+
+    # FAISS retrieval
+    _, faiss_indices = faiss_search(index, query_vector, k)
+
+    # Compare sets of indices
+    return set(numpy_indices) == set(faiss_indices)
 
 # Step 23 - save_faiss_index (not yet solved)
 # TODO: implement
