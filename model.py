@@ -407,11 +407,28 @@ def truncate_context(context, max_chars):
     else:
         return truncate[:max_chars]
 
-# Step 27 - add_system_instruction (not yet solved)
-# TODO: implement
+# Step 27 - add_system_instruction
+def add_system_instruction(prompt):
+    """Prepend a fixed system instruction to the prompt."""
+    # TODO: return a string that starts with a system instruction telling the model to use only the context
+    
+    system_prompt = "You are a helpful assistant. Answer the question using ONLY the provided context. If the answer is not in the context, say 'I do not know'."
 
-# Step 28 - load_generator (not yet solved)
-# TODO: implement
+    return system_prompt + "\n\n" + prompt
+
+# Step 28 - load_generator
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+def load_generator(model_name='sshleifer/tiny-gpt2'):
+    # TODO: load a small local causal LM and its tokenizer, ensuring tokenizer.pad_token is set.
+    
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    return model, tokenizer
 
 # Step 29 - generate_answer (not yet solved)
 # TODO: implement
