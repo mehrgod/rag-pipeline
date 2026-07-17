@@ -487,6 +487,8 @@ def rag_answer(query, chunks, embeddings, embed_model, generator, tokenizer, k=3
     )
 
     prompt = add_system_instruction(template)
+
+    print(prompt)
     
     answer = generate_answer(
         generator,
@@ -500,8 +502,16 @@ def rag_answer(query, chunks, embeddings, embed_model, generator, tokenizer, k=3
         "query": query
     }
 
-# Step 31 - track_source_chunk_ids (not yet solved)
-# TODO: implement
+# Step 31 - track_source_chunk_ids
+def track_source_chunk_ids(source_chunks):
+    # TODO: return the list of chunk ids from the retrieved source chunks, preserving order
+    ids = []
+
+    for source in source_chunks:
+        if 'id' in source.keys():
+            ids.append(source['id'])
+
+    return ids
 
 # Step 32 - append_source_references (not yet solved)
 # TODO: implement
