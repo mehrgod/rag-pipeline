@@ -456,8 +456,49 @@ def generate_answer(model, tokenizer, prompt, max_new_tokens=32):
         skip_special_tokens=True
     )
 
-# Step 30 - rag_answer (not yet solved)
-# TODO: implement
+# Step 30 - rag_answer
+def rag_answer(query, chunks, embeddings, embed_model, generator, tokenizer, k=3):
+    # TODO: embed query, retrieve top-k chunks, build prompt, generate answer, return dict.
+    
+    query_embedding = embed_model.encode(query)
+
+    scores = cosine_similarity_search(
+        query_embedding,
+        embeddings
+    )
+
+    retrieved_chunks = top_k_chunks(
+        scores,
+        chunks,
+        k
+    )
+
+    sources = []
+    for chunk, score in retrieved_chunks:
+        sources.append(chunk)
+
+    chunks_formatted = format_context(retrieved_chunks)
+
+    template = build_prompt_template()
+
+    template.format(
+        context=chunks_formatted,
+        question=query
+    )
+
+    prompt = add_system_instruction(template + " " + chunks_formatted)
+    
+    answer = generate_answer(
+        generator,
+        tokenizer,
+        prompt
+    )
+
+    return {
+        "answer": answer,
+        "sources": sources,
+        "query": query
+    }
 
 # Step 31 - track_source_chunk_ids (not yet solved)
 # TODO: implement
