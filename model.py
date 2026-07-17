@@ -389,8 +389,23 @@ def format_context(retrieved):
 
     return "\n".join(text_source)
 
-# Step 26 - truncate_context (not yet solved)
-# TODO: implement
+# Step 26 - truncate_context
+def truncate_context(context, max_chars):
+    # TODO: trim context so len(result) <= max_chars, preferring a whitespace boundary
+
+    if len(context) <= max_chars:
+        return context    
+    
+    truncate = context[:max_chars]
+    ix = truncate.rfind(" ")
+
+    if context[max_chars] == " ":
+        return truncate
+
+    if ix > 0:
+        return truncate[:ix]
+    else:
+        return truncate[:max_chars]
 
 # Step 27 - add_system_instruction (not yet solved)
 # TODO: implement
