@@ -519,8 +519,7 @@ def append_source_references(answer_text, source_chunks):
     
     ids = track_source_chunk_ids(source_chunks)
 
-    answer = f"{answer_text}\nSources: {ids}"
-    answer = answer.replace("'", "")
+    answer = f"{answer_text}\nSources: {str(ids).replace("'", "")}"
 
     return answer
 
