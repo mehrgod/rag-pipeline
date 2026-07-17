@@ -513,8 +513,16 @@ def track_source_chunk_ids(source_chunks):
 
     return ids
 
-# Step 32 - append_source_references (not yet solved)
-# TODO: implement
+# Step 32 - append_source_references
+def append_source_references(answer_text, source_chunks):
+    # TODO: append a 'Sources: [id1, id2, ...]' line to answer_text using the source chunk ids
+    
+    ids = track_source_chunk_ids(source_chunks)
+
+    answer = f"{answer_text}\nSources: {ids}"
+    answer = answer.replace("'", "")
+
+    return answer
 
 # Step 33 - query_rewrite (not yet solved)
 # TODO: implement
