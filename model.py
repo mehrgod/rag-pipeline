@@ -368,8 +368,14 @@ def save_faiss_index(index, path):
 
     return ix
 
-# Step 24 - build_prompt_template (not yet solved)
-# TODO: implement
+# Step 24 - build_prompt_template
+def build_prompt_template():
+    # TODO: return a RAG prompt template string with {context} and {question} placeholders.
+    return (
+        "Answer the question using only the provided context.\n\n"
+        "Context: {context}\n\n"
+        "Question: {question}"
+    )
 
 # Step 25 - format_context (not yet solved)
 # TODO: implement
