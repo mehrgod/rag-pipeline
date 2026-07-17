@@ -523,8 +523,25 @@ def append_source_references(answer_text, source_chunks):
 
     return answer
 
-# Step 33 - query_rewrite (not yet solved)
-# TODO: implement
+# Step 33 - query_rewrite
+def query_rewrite(raw_query):
+    # TODO: clean and normalize a raw user query into a better search query
+    
+    query = normalize_text(raw_query).lower()
+
+    phrases = ["please", "could you", "can you", "tell me", "i want to know"]
+
+    changed = True
+    while changed:
+        changed = False
+        for phrase in phrases:
+            if query.startswith(phrase + " "):
+                query = query[len(phrase):].strip()
+                changed = True
+
+    query = query.rstrip("?.!")
+    
+    return query
 
 # Step 34 - hyde_retrieve (not yet solved)
 # TODO: implement
