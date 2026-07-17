@@ -486,7 +486,7 @@ def rag_answer(query, chunks, embeddings, embed_model, generator, tokenizer, k=3
         question=query
     )
 
-    prompt = add_system_instruction(template + " " + chunks_formatted)
+    prompt = add_system_instruction(template)
     
     answer = generate_answer(
         generator,
