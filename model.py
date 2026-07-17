@@ -543,8 +543,21 @@ def query_rewrite(raw_query):
     
     return query
 
-# Step 34 - hyde_retrieve (not yet solved)
-# TODO: implement
+# Step 34 - hyde_retrieve
+def hyde_retrieve(query, hypothetical_answer, chunks, embeddings, embed_model, k=5):
+    # TODO: embed the hypothetical answer and return the top-k chunks by cosine similarity.
+    
+    hypothetical_answer_vector = embed_model.encode(hypothetical_answer)
+    scores = cosine_similarity_search(hypothetical_answer_vector, embeddings)
+
+    retrieved_chunks = top_k_chunks(scores, chunks, k)
+
+    top_chunks = []
+
+    for chunk, score in retrieved_chunks:
+        top_chunks.append(chunk)
+    
+    return top_chunks
 
 # Step 35 - reciprocal_rank_fusion (not yet solved)
 # TODO: implement
