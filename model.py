@@ -579,8 +579,65 @@ def reciprocal_rank_fusion(ranked_lists, k=60):
 
     return out
 
-# Step 36 - bm25_search (not yet solved)
-# TODO: implement
+# Step 36 - bm25_search
+import math
+
+def bm25_search(query, chunks, k=5, k1=1.5, b=0.75):
+    # TODO: score chunks against the query with BM25 and return top-k (index, score) pairs
+
+    query_terms = query.lower().split()
+
+    docs = [chunk['text'].lower().split() for chunk in chunks]
+
+    N = len(docs)
+
+    if N == 0:
+        return []
+
+    avgdl = sum(len(doc) for doc in docs) / N
+
+    # Document frequencies
+    df = {}
+    for doc in docs:
+        for term in set(doc):
+            df[term] = df.get(term, 0) + 1
+
+    results = []
+
+    for doc_idx, doc in enumerate(docs):
+        doc_len = len(doc)
+
+        # Term frequencies
+        tf = {}
+        for term in doc:
+            tf[term] = tf.get(term, 0) + 1
+
+        score = 0.0
+
+        for term in query_terms:
+            if term not in tf:
+                continue
+
+            term_df = df.get(term, 0)
+
+            idf = math.log(
+                ((N - term_df + 0.5) / (term_df + 0.5)) + 1
+            )
+
+            freq = tf[term]
+
+            score += idf * (
+                freq * (k1 + 1)
+            ) / (
+                freq + k1 * (1 - b + b * doc_len / avgdl)
+            )
+
+        if score > 0:
+            results.append((doc_idx, score))
+
+    results.sort(key=lambda x: x[1], reverse=True)
+
+    return results[:k]
 
 # Step 37 - hybrid_search (not yet solved)
 # TODO: implement
