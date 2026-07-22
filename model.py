@@ -1015,8 +1015,20 @@ def cache_query_embedding(query, embed_model, cache):
 
     return embedding
 
-# Step 50 - update_chat_memory (not yet solved)
-# TODO: implement
+# Step 50 - update_chat_memory
+def update_chat_memory(history, user_message, assistant_message):
+    # TODO: append a user turn and an assistant turn to history, return new list
+    
+    new_list = [{
+        "role": "user",
+        "content": user_message
+    },
+    {
+        "role": "assistant",
+        "content": assistant_message
+    }]
+
+    return history + new_list
 
 # Step 51 - rewrite_followup (not yet solved)
 # TODO: implement
