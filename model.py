@@ -833,8 +833,33 @@ def hit_rate_at_k(retrieved_ids_per_query, relevant_ids_per_query, k):
 
     return hits / len(retrieved_ids_per_query)
 
-# Step 43 - recall_at_k (not yet solved)
-# TODO: implement
+# Step 43 - recall_at_k
+def recall_at_k(retrieved_ids_per_query, relevant_ids_per_query, k):
+    # TODO: average over queries the fraction of relevant ids found in the top-k retrieved ids
+
+    if not retrieved_ids_per_query:
+        return 0.0
+
+    total_recall = 0.0
+
+    for retrieved, relevant in zip(
+        retrieved_ids_per_query,
+        relevant_ids_per_query
+    ):
+        if not relevant:
+            recall = 0.0
+        else:
+            retrieved_top_k = set(retrieved[:k])
+            relevant_set = set(relevant)
+
+            recall = (
+                len(retrieved_top_k & relevant_set)
+                / len(relevant_set)
+            )
+
+        total_recall += recall
+
+    return total_recall / len(retrieved_ids_per_query)
 
 # Step 44 - mean_reciprocal_rank (not yet solved)
 # TODO: implement
