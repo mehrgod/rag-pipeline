@@ -885,8 +885,31 @@ def mean_reciprocal_rank(retrieved_ids_per_query, relevant_ids_per_query):
 
     return total_rr / len(retrieved_ids_per_query)
 
-# Step 45 - faithfulness_score (not yet solved)
-# TODO: implement
+# Step 45 - faithfulness_score
+def faithfulness_score(answer, context_chunks):
+    # TODO: return the fraction of answer tokens that appear in the context text
+
+    answer_tokens = normalize_text(answer).lower().split()
+
+    if not answer_tokens:
+        return 0.0
+
+    
+    context_text = " ".join(
+        chunk["text"] for chunk in context_chunks
+    )
+
+    context_tokens = set(
+        normalize_text(context_text).lower().split()
+    )
+
+    supported = 0
+
+    for token in answer_tokens:
+        if token in context_tokens:
+            supported += 1
+
+    return supported / len(answer_tokens)
 
 # Step 46 - relevance_score (not yet solved)
 # TODO: implement
