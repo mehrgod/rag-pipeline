@@ -911,8 +911,35 @@ def faithfulness_score(answer, context_chunks):
 
     return supported / len(answer_tokens)
 
-# Step 46 - relevance_score (not yet solved)
-# TODO: implement
+# Step 46 - relevance_score
+def relevance_score(answer, question):
+    # TODO: return token-overlap (Jaccard) similarity between answer and question in [0, 1]
+
+    punctuations = [",", ".", "!", "?"]
+
+    for p in punctuations:
+        if p in answer:
+            answer = answer.replace(p, "")
+        if p in question:
+            question = question.replace(p, "")
+
+
+    answer_tokens = set(
+        normalize_text(answer).lower().split()
+    )
+
+    question_tokens = set(
+        normalize_text(question).lower().split()
+    )
+
+    union = answer_tokens | question_tokens
+
+    if not union:
+        return 0.0
+
+    intersection = answer_tokens & question_tokens
+
+    return len(intersection) / len(union)
 
 # Step 47 - handle_no_context (not yet solved)
 # TODO: implement
