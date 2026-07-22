@@ -941,8 +941,35 @@ def relevance_score(answer, question):
 
     return len(intersection) / len(union)
 
-# Step 47 - handle_no_context (not yet solved)
-# TODO: implement
+# Step 47 - handle_no_context
+def handle_no_context(scored_chunks, threshold=0.2):
+    """Return {'abstain': bool, 'message': str} based on top score vs threshold."""
+    # TODO: abstain when no chunk's score strictly exceeds the threshold
+
+    if not scored_chunks:
+        return {
+            "abstain": True,
+            "message": "I do not know"
+        }
+
+    flag = True
+    message = "I do not know"
+    
+    if isinstance(scored_chunks[0], dict):
+        for chunk_dict in scored_chunks:
+            if chunk_dict["score"] > threshold:
+                flag = False
+                message = ""
+    else:    
+        for _, score in scored_chunks:
+            if score > threshold:
+                flag = False
+                message = ""
+
+    return {
+        "abstain": flag,
+        "message": message
+    }
 
 # Step 48 - deduplicate_chunks (not yet solved)
 # TODO: implement
