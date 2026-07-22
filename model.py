@@ -706,8 +706,56 @@ def rerank_cross_encoder(query, candidate_chunks, cross_encoder):
 
     return [chunk for chunk, _ in ranked]
 
-# Step 39 - maximal_marginal_relevance (not yet solved)
-# TODO: implement
+# Step 39 - maximal_marginal_relevance
+def maximal_marginal_relevance(query_embedding, candidate_embeddings, k=5, lambda_param=0.5):
+    # TODO: greedily pick indices balancing query relevance and diversity from already-selected items.
+
+    n = len(candidate_embeddings)
+
+    if n == 0:
+        return []
+
+    k = min(k, n)
+
+    # Query-to-candidate similarities
+    relevance = candidate_embeddings @ query_embedding
+
+    selected = []
+    remaining = set(range(n))
+
+    while len(selected) < k:
+        best_idx = None
+        best_score = None
+
+        for idx in remaining:
+
+            if not selected:
+                diversity_penalty = 0.0
+            else:
+                sims = candidate_embeddings[selected] @ candidate_embeddings[idx]
+                diversity_penalty = np.max(sims)
+
+            score = (
+                lambda_param * relevance[idx]
+                - (1 - lambda_param) * diversity_penalty
+            )
+
+            # Tie-break by smaller index
+            if (
+                best_score is None
+                or score > best_score
+                or (
+                    score == best_score
+                    and idx < best_idx
+                )
+            ):
+                best_score = score
+                best_idx = idx
+
+        selected.append(best_idx)
+        remaining.remove(best_idx)
+
+    return selected
 
 # Step 40 - filter_by_metadata (not yet solved)
 # TODO: implement
