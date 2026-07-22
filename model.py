@@ -1030,6 +1030,21 @@ def update_chat_memory(history, user_message, assistant_message):
 
     return history + new_list
 
-# Step 51 - rewrite_followup (not yet solved)
-# TODO: implement
+# Step 51 - rewrite_followup
+def rewrite_followup(followup_question, history):
+    # TODO: turn a follow-up question into a standalone query using chat history
+    
+    if len(history) < 1:
+        return followup_question
+
+    memory = ""
+
+    i = len(history)
+    while (i >= 0):
+        i -= 1
+        if history[i]['role'] == 'user':
+            memory = history[i]['content'] + " "
+            break
+        
+    return normalize_text(memory + followup_question)
 
